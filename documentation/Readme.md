@@ -4,10 +4,10 @@ _ _Figma Design:_ _ https://www.figma.com/design/aKxmfxzUziLLlGa4TJb2Bi/Ronjas-W
 
 _________________________________________________________________________________________
 # MAIN PAGES
-1. Start page where the game is played
-2. About us PAGE 
+1. Start page where the game is played (React)
+2. About us PAGE (Static)
 -static HTML or React page with information about the project, tools used, and purpose
-3. Highscore List
+3. Highscore List (SSR Backend)
 -Has its own URL Route, Data is fetched from a database and page is server-side rendered 
 __________________________________________________________________________________________
 
