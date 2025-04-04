@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
     try {
         //if no global variable exists- my local database is used
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/wordledb',{
+        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/wordleDB',{
         });
         console.log('Connected to mongoDB');
     } catch (err) {
