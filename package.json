@@ -5,6 +5,7 @@
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.13.1"
   },
