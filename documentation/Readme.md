@@ -4,10 +4,10 @@ _ _Figma Design:_ _ https://www.figma.com/design/aKxmfxzUziLLlGa4TJb2Bi/Ronjas-W
 
 _________________________________________________________________________________________
 # MAIN PAGES
-1. Start page where the game is played
-2. About us PAGE 
+1. Start page where the game is played (React)
+2. About us PAGE (Static)
 -static HTML or React page with information about the project, tools used, and purpose
-3. Highscore List
+3. Highscore List (SSR Backend)
 -Has its own URL Route, Data is fetched from a database and page is server-side rendered 
 __________________________________________________________________________________________
 
@@ -41,5 +41,55 @@ Node.js lets me run JS on the server, Express defines routes and API:s.
 
 _ _Testing:_ _ Jest is my chosen JS framework to test my logic. 
 
-_ _Database:_ _ SQLite is my database of choise.
+_ _Database:_ _ MongoDB is my database of choise. Mongoose= Thirdpart library.
 
+__________________________________________________________________________________________________________
+
+# REST API DESIGN/Backend structure
+_ _Mainfunction of my API:_ _ 
+- Save Gameresults
+- Show Highscore
+- Delete data or show details?
+
+## API Endpoints
+
+### POST /api/highscore
+Saves a new highscore in my database
+Method: Post
+
+**Body (JSON):**
+{
+  "username": "Ronja",
+  "score": 3,
+  "guesses": ["sunny", "flute", "winner"]
+}
+
+Answer: {
+  "message": "Highscore saved!",
+    "data": {
+    "_id": "abc123",
+    "username": "Ronja",
+    "score": 3,
+    "guesses": ["sunny", "flute", "winner"],
+    "createdAt": "2025-04-03T12:00:00Z"
+  }
+}
+
+### GET /api/highscore
+Gets the highscore with the best results and lowest rate of guessed words
+Method: Get
+Query: limit (/api/highscore?limit=5)
+sort=asc
+
+Answer:
+[
+  { "username": "Henry", "score": 2 },
+  { "username": "Ronja", "score": 3 }
+]
+
+### DELETE /api/highscore/:id
+To delete a highscore based on an ID
+Method: Delete
+
+Answer
+{ "message": "Highscore deleted" }
