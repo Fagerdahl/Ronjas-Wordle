@@ -1,7 +1,7 @@
 //This is where we play the Game
 import React, { useState } from "react";
 import GameBoard from "../components/GameBoard";
-import GuessInput from "../components/GuessInput";
+// import GuessInput from "../components/GuessInput";
 
 const Game = () => {
   const [solution, setSolution] = useState("apple"); // exempellösning
@@ -26,7 +26,7 @@ const Game = () => {
     <div>
       <h1>Wordle Game</h1>
       <GameBoard guesses={guesses} solution={solution} />
-      <GuessInput onSubmitGuess={handleAddGuess} />
+      {/* <GuessInput onSubmitGuess={handleAddGuess} /> */}
     </div>
   );
 };
