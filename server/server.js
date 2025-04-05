@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 import connectDB from './db.js';
 import Score from './models/scoreModel.js';
 
-dotenv.config(); //Load .env-file to use global variables
-console.log('🧪 MONGO_URI:', process.env.MONGO_URI);
+dotenv.config({ path: './server/.env' }); //Load .env-file to use global variables
+console.log('MONGO_URI:', process.env.MONGO_URI);
 
 connectDB(); //Connecting to mongoDB
 
@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5080;
 
 app.use(express.json()); //To handle JSON resources in body from frontend, middleware
-app.use(cors());
+app.use(cors()); //For frontend to be able to communicate with backend
 
 //POST-Route to add a new score into my database
 app.post('/api/scores', async (req, res) => {

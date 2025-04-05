@@ -8,18 +8,19 @@ const scoreBoard = () => {
     fetch("http://localhost:5080/api/scores")
       .then((response) => response.json()) //Convert answer to JSON
       .then((data) => {
-        console.log(data);
+        console.log("Fetched scores:",data);
         setScores(data); //Updating the state with fetched data
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => console.error("Error fetching scores:", error));
   }, []);
 
+  //React builds a virtual DOM based on this jsx
   return (
     <div>
       <h1>Scores</h1>
       <ul>
-        {scores.map((score, index) => (
-          <li key={index}>
+        {scores.map((score) => (
+          <li key={score._id}>
             {score.username}: {score.score}
           </li>
         ))}
@@ -29,3 +30,7 @@ const scoreBoard = () => {
 };
 
 export default scoreBoard;
+
+//useEffect = Runs one time when component loads, gets scores from backend
+//setScores = Updating state with fetched data
+//render = Shows a list of scores if there are any in the db
