@@ -18,9 +18,9 @@ const App = () => {
         {/* Home page where we play */}
         <Route path="/" element={<Home />} /> 
         {/* Highscore-page */}             
-        <Route path="/highscore" element={<Highscore />} /> 
+        <Route path="/Highscore" element={<Highscore />} /> 
         {/* About-page */} 
-        <Route path="/about" element={<About />} />          
+        <Route path="/About" element={<About />} />          
       </Routes>
     </Router>
   );
