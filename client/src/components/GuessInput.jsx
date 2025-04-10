@@ -1,27 +1,30 @@
-// //Inputfield for guesses
-// import React, { useState } from "react";
+import React, { useState } from "react";
 
-// const GuessInput = ({ onSubmitGuess }) => {
-//   const [input, setInput] = useState("");
+const GuessInput = ({ onSubmitGuess }) => {
+  const [guess, setGuess] = useState("");
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (input.trim() === "") return;
-//     onSubmitGuess(input.trim());
-//     setInput(""); //Clear input
-//   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (guess.length !== 5) {
+      alert("Guessed word must be 5 characters in length!");
+      return;
+    }
+    onSubmitGuess(guess);
+    setGuess("");
+  };
 
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input
-//         type="text"
-//         value={input}
-//         onChange={(e) => setInput(e.target.value)}
-//         placeholder="Guess here"
-//       />
-//       <button type="submit">OK</button>
-//     </form>
-//   );
-// };
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={guess}
+        onChange={(e) => setGuess(e.target.value)}
+        maxLength={5}
+        placeholder="Write your guess"
+      />
+      <button type="submit">Guess</button>
+    </form>
+  );
+};
 
-// export default GuessInput;
+export default GuessInput;

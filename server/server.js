@@ -3,6 +3,8 @@ import cors from "cors"; //For frontend and backend communication
 import dotenv from "dotenv";
 import connectDB from "./db.js";
 import Score from "./models/scoreModel.js";
+import wordRoutes from "./routes/importWords.js";
+
 
 dotenv.config({ path: "./server/.env" }); //Load .env-file to use global variables
 console.log("MONGO_URI:", process.env.MONGO_URI);

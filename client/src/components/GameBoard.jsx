@@ -1,26 +1,20 @@
-//The visual Game Board with the grid
+//The visual Game Board with the grid. this file renders the gameboard
 import React from "react";
-import "./GameBoard.css"; //Separate styling
+import "./GameBoard.css";
 
 const GameBoard = ({ guesses, solution }) => {
   const rows = 6;
   const columns = solution.length;
 
-  const boardRows = [];
-  for (let i = 0; i < rows; i++) {
-    boardRows.push(i);
-  }
-
   return (
     <div className="board-container">
-      {boardRows.map((rowIndex) => {
+      {Array.from({ length: rows }, (_, rowIndex) => {
         const guess = guesses[rowIndex] || "";
         return (
           <div className="board-row" key={rowIndex}>
-            {[...Array(columns)].map((_, colIndex) => {
+            {Array.from({ length: columns }, (_, colIndex) => {
               const letter = guess[colIndex] || "";
               const color = getCellColor(letter, colIndex, guess, solution);
-
               return (
                 <div
                   className="board-cell"
@@ -40,14 +34,13 @@ const GameBoard = ({ guesses, solution }) => {
 
 function getCellColor(letter, colIndex, guess, solution) {
   if (!letter) return "#3a3a3c";
-  if (letter === solution[colIndex]) {
+  if (letter.toLowerCase() === solution[colIndex].toLowerCase()) {
     return "#538d4e";
   }
-
-  if (solution.includes(letter)) {
+  if (solution.toLowerCase().includes(letter.toLowerCase())) {
     return "#b59f3b";
   }
-  return "#3a3a3c";
+  return "#3a3a3c"; 
 }
 
 export default GameBoard;
