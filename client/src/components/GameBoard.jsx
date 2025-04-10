@@ -33,14 +33,14 @@ const GameBoard = ({ guesses, solution }) => {
 };
 
 function getCellColor(letter, colIndex, guess, solution) {
-  if (!letter) return "#3a3a3c";
-  if (letter.toLowerCase() === solution[colIndex].toLowerCase()) {
-    return "#538d4e";
+  if (!letter) return "#3a3a3c"; // tom cell
+  if (letter.toLowerCase() === solution[colIndex]?.toLowerCase()) {
+    return "#538d4e"; // green
   }
   if (solution.toLowerCase().includes(letter.toLowerCase())) {
-    return "#b59f3b";
+    return "#b59f3b"; // yellow
   }
-  return "#3a3a3c"; 
+  return "#B22222"; // red
 }
 
 export default GameBoard;

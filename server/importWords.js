@@ -1,4 +1,4 @@
-// server/routes/word.js
+//import words to database
 import express from "express";
 import Word from "../models/wordModel.js";
 

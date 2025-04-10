@@ -1,15 +1,33 @@
+/* Centrerar hela brädan, ger en max-bredd och lite horisontell padding */
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .board-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin: 20px 0;
+  margin: 20px auto;     /* Auto horisontellt centrerad */
+  padding: 0 10px;       /* Lite padding på sidorna */
+  max-width: 100%;       /* Tillåter full bredd på mindre skärmar */
+  width: fit-content;    /* Anpassar bredden efter innehållet */
 }
 
+/* Raden ligger som flex rad med gap för cellerna */
 .board-row {
   display: flex;
   gap: 5px;
 }
 
+/* Standardstorlek för cellerna */
 .board-cell {
   width: 50px;
   height: 50px;
@@ -21,4 +39,13 @@
   font-weight: bold;
   font-size: 1.2rem;
   text-transform: uppercase;
+}
+
+/* Anpassning vid mindre skärmar */
+@media (max-width: 500px) {
+  .board-cell {
+    width: 60px;
+    height: 60px;
+    font-size: 1rem;
+  }
 }

@@ -1,0 +1,32 @@
+/* Bas-stil för meddelanderutan */
+.message {
+    max-width: 90%;       /* Anpassar bredden efter skärmstorlek */
+    margin: 20px auto;     /* Centrerad med lite marginal över och under */
+    padding: 15px;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Stil när spelaren vunnit */
+  .message.success {
+    background-color: #538d4e;  /* Grön nyans */
+    color: #fff;
+  }
+  
+  /* Stil när spelet är över/förlorat */
+  .message.error {
+    background-color: #B22222;  /* Exempel på en röd nyans */
+    color: #fff;
+  }
+  
+  /* Responsivt - om skärmen är smalare */
+  @media (max-width: 500px) {
+    .message {
+      font-size: 1.2rem;
+      padding: 10px;
+    }
+  }
+  

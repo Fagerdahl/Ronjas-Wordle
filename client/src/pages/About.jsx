@@ -1,6 +1,32 @@
 //Static page about this project
 import React, { useState } from 'react';
 
+const backdropStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.7)", // Mörkt genomskinligt svart
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: 1000, // Se till att modalen ligger över allt annat
+};
+
+const modalStyle = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "8px",
+  maxWidth: "90%",
+  width: "500px",         // Fast bredd, men den maximeras av maxWidth
+  maxHeight: "80%",
+  overflowY: "auto",      // Om innehållet blir för högt, rulla vertikalt
+  boxSizing: "border-box",
+  textAlign: "center",
+};
+
+
 const About = () => {
     //State to handle modal
     const [showModal, setShowModal] = useState(false);
@@ -32,13 +58,13 @@ const About = () => {
         <div style={backdropStyle}>
           <div style={modalStyle}>
             <h2>Technical information</h2>
-            <p>
-            Frontend: React 
-            Backend: Express and Node.js
-            Programming Language: JavaScript
-            Highscore-list SSR MongoDB
-            UI-design work is made in Figma
-            </p>
+            <p style={{ color: "#000", fontSize: "1rem", margin: "10px 0" }}>
+  Frontend: React<br/>
+  Backend: Express and Node.js<br/>
+  Programming Language: JavaScript<br/>
+  Highscore-list SSR: MongoDB<br/>
+  UI-design work is made in Figma
+</p>
             <button onClick={handleCloseModal}>Close</button>
           </div>
         </div>

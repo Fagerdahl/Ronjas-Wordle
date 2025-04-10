@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./GuessInput.css"; // Importera CSS-filen
 
 const GuessInput = ({ onSubmitGuess }) => {
   const [guess, setGuess] = useState("");
@@ -14,15 +15,18 @@ const GuessInput = ({ onSubmitGuess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="guess-form">
       <input
+        className="guess-input"
         type="text"
         value={guess}
         onChange={(e) => setGuess(e.target.value)}
         maxLength={5}
         placeholder="Write your guess"
       />
-      <button type="submit">Guess</button>
+      <button className="guess-button" type="submit">
+        Guess
+      </button>
     </form>
   );
 };

@@ -3,7 +3,7 @@ import cors from "cors"; //For frontend and backend communication
 import dotenv from "dotenv";
 import connectDB from "./db.js";
 import Score from "./models/scoreModel.js";
-import wordRoutes from "./routes/importWords.js";
+import wordRoutes from "./word.js";
 
 
 dotenv.config({ path: "./server/.env" }); //Load .env-file to use global variables
@@ -16,6 +16,9 @@ const PORT = process.env.PORT || 5080;
 
 app.use(express.json()); //To handle JSON resources in body from frontend, middleware
 app.use(cors()); //For frontend to be able to communicate with backend
+
+//req http://localhost:5080/api/word?length=5
+app.use("/api/word", wordRoutes);
 
 //POST-Route to add a new score into my database
 app.post("/api/scores", async (req, res) => {
