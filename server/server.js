@@ -22,19 +22,19 @@ app.use("/api/word", wordRoutes);
 
 //POST-Route to add a new score into my database
 app.post("/api/scores", async (req, res) => {
+  console.log("Received score data:", req.body); // Kontrollera vad som skickas in
   const { username, score, guesses } = req.body;
-
   try {
-    //Create a new score doc
     const newScore = new Score({ username, score, guesses });
-    await newScore.save(); //Save the score doc in database
-
-    res.status(201).json(newScore); //Return the score doc
+    await newScore.save();
+    res.status(201).json(newScore);
   } catch (err) {
-    console.error("Error when saving score:", err.message);
-    res.status(500).json({ message: "Could not save your score" });
+    // Logga hela error-objektet för detaljerad diagnostik
+    console.error("Error when saving score:", err);
+    res.status(500).json({ message: "Could not save your score", error: err.message });
   }
 });
+
 
 //GET-route to get all scores from database
 app.get("/api/scores", async (req, res) => {
