@@ -10,34 +10,51 @@ const Highscore = ({ scores }) => {
   return (
     <div style={containerStyle}>
       <h1 style={headingStyle}>Highscore</h1>
-      <ul style={listStyle}>
-        {scores.map((score, index) => (
-          <li key={index} style={itemStyle}>
-            <span style={usernameStyle}>{score.username}</span> -{" "}
-            <span style={timeStyle}>{score.score}p</span> -{" "}
-            <span style={guessesStyle}>{score.guesses} guesses</span>
-          </li>
-        ))}
-      </ul>
+      {Array.isArray(scores) && scores.length > 0 ? (
+        <ul style={listStyle}>
+          {scores.map((score, index) => (
+            <li key={index} style={itemStyle}>
+              <span style={usernameStyle}>{score.username}</span> -{" "}
+              <span style={timeStyle}>{score.score}p</span> -{" "}
+              <span style={guessesStyle}>{score.guesses} guesses</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Inga highscore än...</p>
+      )}
     </div>
   );
 };
 
+// pages/highscore.js
+
 export async function getServerSideProps(context) {
   try {
-    const res = await fetch("http://localhost:5080/api/scores");
+    // Exempel: Bygg URL dynamiskt
+    const { req } = context;
+    const protocol = req.headers["x-forwarded-proto"] || "http";
+    const host = req.headers.host;
+    const apiUrl = `${protocol}://${host}/api/scores`;
+
+    const res = await fetch(apiUrl);
     const scores = await res.json();
 
-    return {
-      props: { scores }, // Skickar datan som props till Highscore-komponenten
-    };
+    // LOGGA i serverns terminal, inte bara i webbläsarens devtools
+    console.log("SSR fetched scores:", scores);
+
+    // Returnera data som props om det är en array; annars en tom array
+    return { props: { scores: Array.isArray(scores) ? scores : [] } };
   } catch (error) {
     console.error("Error fetching scores:", error);
-    return {
-      props: { scores: [] }, // Fallback: en tom array om något går fel
-    };
+    return { props: { scores: [] } };
   }
 }
+
+
+
+
+
 
 export default Highscore;
 
