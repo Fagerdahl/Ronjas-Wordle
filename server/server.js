@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./db.js";
 import Score from "./models/scoreModel.js";
 import wordRoutes from "./word.js";
+import path from "path"; // Inbyggt node-modul för sökvägar
 
 
 dotenv.config({ path: "./server/.env" }); //Load .env-file to use global variables
@@ -19,6 +20,16 @@ app.use(cors()); //For frontend to be able to communicate with backend
 
 //req http://localhost:5080/api/word?length=5
 app.use("/api/word", wordRoutes);
+
+// Ställ in EJS som templatemotor
+// Eftersom du använder ES-moduler kan __dirname vara odefinierat. Du kan använda:
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Ange att vi använder EJS och mappen "views" (skapa en mapp "views" i din server-mapp)
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 //POST-Route to add a new score into my database
 app.post("/api/scores", async (req, res) => {
@@ -44,6 +55,19 @@ app.get("/api/scores", async (req, res) => {
   } catch (err) {
     console.error("error getting scores:", err.message);
     res.status(500).json({ message: "Could not get scores" });
+  }
+});
+
+// Definiera en route för highscore-sidan (SSR)
+app.get("/highscore", async (req, res) => {
+  try {
+    // Hämta scores från databasen, sorterade efter poäng (exempel)
+    const scores = await Score.find().sort({ score: -1 });
+    // Rendera EJS-mallen "highscore" och skicka in scores som en variabel
+    res.render("highscore", { scores });
+  } catch (error) {
+    console.error("Error fetching scores:", error);
+    res.status(500).send("Error retrieving highscore");
   }
 });
 

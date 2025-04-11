@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Highscore</title>
+    <style>
+      /* Enkel styling; du kan lägga in mer */
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+        color: #555;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .username {
+        font-weight: bold;
+        color: #333;
+      }
+      .score {
+        color: #27ae60;
+      }
+      .guesses {
+        color: #e67e22;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Highscore</h1>
+    <% if (scores && scores.length > 0) { %>
+      <ul>
+        <% scores.forEach(function(score) { %>
+          <li>
+            <span class="username"><%= score.username %></span> - 
+            <span class="score"><%= score.score %>p</span> - 
+            <span class="guesses"><%= score.guesses %> gissningar</span>
+          </li>
+        <% }); %>
+      </ul>
+    <% } else { %>
+      <p>Inga highscore än...</p>
+    <% } %>
+  </body>
+</html>
