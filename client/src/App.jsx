@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 //Importing all my 3 pages
 import Home from './pages/Home';
-import Highscore from './pages/Highscore';
 import About from './pages/About';
 //Importing a navbar layout
 import Navbar from './components/Navbar';
@@ -17,8 +16,6 @@ const App = () => {
       <Routes>
         {/* Home page where we play */}
         <Route path="/" element={<Home />} /> 
-        {/* Highscore-page */}             
-        <Route path="/Highscore" element={<Highscore />} /> 
         {/* About-page */} 
         <Route path="/About" element={<About />} />          
       </Routes>
@@ -27,3 +24,9 @@ const App = () => {
 };
 
 export default App;
+
+
+//Genom att inte definiera en <Route path="/Highscore" element={<Highscore />} /> i 
+// <Routes> låter du inte React Router hantera highscore-sidan. 
+// Detta är viktigt om du vill att Express/EJS-sidan (som ligger på en separat port, t.ex. 5080) 
+// ska hantera all rendering av highscore.

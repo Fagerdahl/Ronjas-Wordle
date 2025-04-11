@@ -1,10 +1,8 @@
-//SSR highscore list , this should not retrieve data with useEffect. This data should be retrieved as props: scores.
-
 // pages/highscore.js
 import React from "react";
 
+// Highscore-komponenten tar emot "scores" som props
 const Highscore = ({ scores }) => {
-  // Debug: Skriv ut scores i serverns/klientens konsol
   console.log("In <Highscore />:", scores);
 
   return (
@@ -14,24 +12,25 @@ const Highscore = ({ scores }) => {
         <ul style={listStyle}>
           {scores.map((score, index) => (
             <li key={index} style={itemStyle}>
-              <span style={usernameStyle}>{score.username}</span> -{" "}
-              <span style={timeStyle}>{score.score}p</span> -{" "}
+              <span style={usernameStyle}>{score.username}</span>{" "}
+              <span style={timeStyle}>{score.time}sec</span>{" "}
               <span style={guessesStyle}>{score.guesses} guesses</span>
             </li>
           ))}
         </ul>
       ) : (
-        <p>Inga highscore än...</p>
+        <p>No highscores yet...</p>
       )}
     </div>
   );
 };
 
-// pages/highscore.js
+export default Highscore;
 
+// getServerSideProps hämtar highscore-data från API:et, sorterar dem baserat på "time" (stigande)
+// och plockar ut de 5 bästa resultaten.
 export async function getServerSideProps(context) {
   try {
-    // Exempel: Bygg URL dynamiskt
     const { req } = context;
     const protocol = req.headers["x-forwarded-proto"] || "http";
     const host = req.headers.host;
@@ -40,23 +39,18 @@ export async function getServerSideProps(context) {
     const res = await fetch(apiUrl);
     const scores = await res.json();
 
-    // LOGGA i serverns terminal, inte bara i webbläsarens devtools
-    console.log("SSR fetched scores:", scores);
+    // Sortera highscore-datan så att den med lägsta tid (bästa) kommer först och ta de 5 bästa.
+    const bestScores = Array.isArray(scores)
+      ? scores.sort((a, b) => a.time - b.time).slice(0, 5)
+      : [];
 
-    // Returnera data som props om det är en array; annars en tom array
-    return { props: { scores: Array.isArray(scores) ? scores : [] } };
+    console.log("SSR fetched scores:", bestScores);
+    return { props: { scores: bestScores } };
   } catch (error) {
     console.error("Error fetching scores:", error);
     return { props: { scores: [] } };
   }
 }
-
-
-
-
-
-
-export default Highscore;
 
 // Inline-style-objekt för styling
 const containerStyle = {
@@ -97,11 +91,9 @@ const usernameStyle = {
 };
 
 const timeStyle = {
-  color: "#27ae60", // Grön nyans
+  color: "#27ae60", // Grön nyans, visar tid
 };
 
 const guessesStyle = {
   color: "#e67e22", // Orange nyans
 };
-
-

@@ -10,24 +10,29 @@ const Home = () => {
   const [message, setMessage] = useState("");
   const [win, setWin] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [startTime, setStartTime] = useState(null); // Starttid
+  const [username, setUsername] = useState(""); // Användarnamn, tomt initialt
+  const [hasSubmitted, setHasSubmitted] = useState(false); // För att undvika att skicka resultat flera gånger
 
-  // Hämta ett slumpat ord från DB
+  // Hämta ett slumpat ord från DB och sätt starttid
   const fetchRandomWord = async () => {
     try {
-      const res = await fetch("http://localhost:5080/api/word?length=5"); 
+      const res = await fetch("http://localhost:5080/api/word?length=5");
       const data = await res.json();
       console.log("New word from DB:", data.word);
       setSolution(data.word);
+      setStartTime(Date.now()); // Sätt starttid
     } catch (err) {
       console.error("Error fetching new word:", err);
       setSolution("apple"); // fallback
+      setStartTime(Date.now());
     }
   };
 
   // Hämta ordet när komponenten mountas
   useEffect(() => {
     fetchRandomWord();
-  }, []); 
+  }, []);
 
   const handleAddGuess = (guess) => {
     if (!gameOver && guesses.length < 6) {
@@ -55,32 +60,30 @@ const Home = () => {
     }
   }, [win]);
 
-  // useEffect som lyssnar på gameOver – här skickas resultatet
+  // När spelet är över, räkna ut den spelade tiden och skicka resultatet
   useEffect(() => {
-    if (gameOver) {
-      // Bygg resultatet
+    if (gameOver && startTime && !hasSubmitted) {
+      // Om användarnamnet inte är ifyllt, kan du t.ex. använda "Anonymous" eller vänta
+      const finalUsername = username.trim() !== "" ? username : "Anonymous";
+      const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Tid i sekunder
       const gameResult = {
-        username: "Anonymous", // Ersätt gärna med ett formulär om användaren ska ange sitt namn
-        score: calculateScore(guesses),
+        username: finalUsername, // Användarens namn
+        time: elapsedTime,       // Tiden i sekunder
         guesses: guesses.length,
       };
       submitScore(gameResult);
+      setHasSubmitted(true); // Förhindrar dubbelpostning
     }
-  }, [gameOver]);
+  }, [gameOver, startTime, username, guesses, hasSubmitted]);
 
-  // Funktion för att räkna ut poäng (exempel, anpassa efter behov)
-  function calculateScore(guessesArray) {
-    // Exempel: högre score om färre gissningar
-    return Math.max(100 - (guessesArray.length - 1) * 10, 0);
-  }
-
-  // Rensa spelet och hämta ett nytt ord
+  // Rensa state och hämta ett nytt ord
   const resetGame = () => {
     setGuesses([]);
     setMessage("");
     setWin(false);
     setGameOver(false);
-    fetchRandomWord(); // Hämta nytt ord
+    setHasSubmitted(false);
+    fetchRandomWord(); // Hämta nytt ord och starta om tidmätningen
   };
 
   return (
@@ -102,6 +105,22 @@ const Home = () => {
         </div>
       )}
       <GuessInput onSubmitGuess={handleAddGuess} disabled={gameOver} />
+
+      {/* Visa ett inputfält för användarnamn när spelet är över om det inte redan är ifyllt */}
+      {gameOver && !hasSubmitted && (
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
+          <p>Skriv in ditt användarnamn så att vi kan spara din highscore:</p>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Ditt namn"
+            style={{ padding: "8px", fontSize: "1rem" }}
+          />
+          {/* Du kan lägga till en knapp om du vill att användaren ska bekräfta sitt namn */}
+          {/* <button onClick={() => {/* Submit om inte redan gjorts *-/}}>Skicka</button> */}
+        </div>
+      )}
     </div>
   );
 };

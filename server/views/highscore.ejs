@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <title>Highscore</title>
     <style>
-      /* Enkel styling; du kan lägga in mer */
       body {
         font-family: Arial, sans-serif;
         max-width: 800px;
@@ -32,28 +31,30 @@
         font-weight: bold;
         color: #333;
       }
-      .score {
-        color: #27ae60;
+      .time {
+        color: #27ae60; /* Grön för tid */
       }
       .guesses {
-        color: #e67e22;
+        color: #e67e22; /* Orange för antal gissningar */
       }
     </style>
   </head>
   <body>
-    <h1>Highscore</h1>
+    <h1>Highscore (SSR)</h1>
     <% if (scores && scores.length > 0) { %>
       <ul>
         <% scores.forEach(function(score) { %>
           <li>
-            <span class="username"><%= score.username %></span> - 
-            <span class="score"><%= score.score %>p</span> - 
-            <span class="guesses"><%= score.guesses %> gissningar</span>
+            <span class="username"><%= score.username %></span>
+            <span class="time"><%= score.time %>sec</span>
+            <span class="guesses"><%= score.guesses %> guesses</span>
           </li>
         <% }); %>
       </ul>
     <% } else { %>
       <p>Inga highscore än...</p>
     <% } %>
+    <!-- Länk tillbaka till din SPA (om du vill) -->
+    <p><a href="http://localhost:5173/">Tillbaka till SPA</a></p>
   </body>
 </html>
